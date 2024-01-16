@@ -1,26 +1,23 @@
-//TODO: Comment back in as able
-
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-//import { nextChar } from "./encounterSlice";
-//import { useSelector, useDispatch } from "react-redux";
+import { nextChar } from "./encounterSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function Header() {
-  //const encounter = useSelector((state) => state.encounter);
-  //const dispatch = useDispatch();
+  const encounter = useSelector((state) => state.encounter);
+  const dispatch = useDispatch();
 
   const advance = () => {
-    //dispatch(nextChar());
+    dispatch(nextChar());
   };
 
   return (
     <View className="flex flex-row w-full">
       <View>
         <Text className="mx-auto pt-3 font-[Scada-Bold] text-2xl">
-          {/* {encounter.title} */}Dumb Encounter
+          {encounter.title}
         </Text>
         <Text className="mx-auto pb-2">
-{/* This was "encounter.xpEarned" */}
-          {`Total XP: ${69}`}</Text>
+          {`Total XP: ${encounter.xpEarned}`}</Text>
       </View>
       <TouchableOpacity
         onPress={advance}

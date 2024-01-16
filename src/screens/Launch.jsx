@@ -1,81 +1,69 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchTest, setTest, deleteTest, testRoute } from '../features/test/testSlice';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { Text, View, TouchableOpacity } from "react-native";
+import { useEffect } from "react";
+import { getDiePrefs } from "../features/dieroll/dierollSlice";
+import { useSelector, useDispatch } from "react-redux";
+import NewCampaign from "../features/newCampaign/NewCampaign";
+import { modalToggled } from "../features/newCampaign/newCampaignSlice";
+import { setCurrentCampaign } from "../features/campaigns/campaignSlice";
+import { setNotes } from "../features/notes/notesSlice";
 
 export default function Launch({ navigation }) {
+  const dispatch = useDispatch();
 
-const dispatch = useDispatch()
-const localStorage = useSelector((state) => state.test.localStorage)
+  useEffect(() => {
+    dispatch(getDiePrefs());
+  }, [dispatch]);
 
-const [text, setText] = useState('')
+  const campaigns = useSelector((state) => state.campaigns);
 
-const handleCampaign = () => {
-  navigation.navigate("Campaign")
+  const handleCampaign = (title) => {
+    dispatch(
+      setNotes(campaigns.filter((camp) => camp.title === title)[0].notes),
+    );
+    // alert(JSON.stringify(campaigns.find(campaign => (
+    //   campaign.title === title
+    // ))))
+    dispatch(
+      setCurrentCampaign(
+        campaigns.find((campaign) => campaign.title === title),
+      ),
+    );
+    navigation.navigate("Campaign", { name: title });
+  };
+  const handleNew = () => {
+    dispatch(modalToggled());
+  };
+
+  const handleDebug = () => {
+    navigation.navigate("Debug");
+  };
+
+  return (
+    <View className="h-full">
+      <NewCampaign />
+      {campaigns.map((campaign) => (
+        <TouchableOpacity
+          onPress={() => handleCampaign(campaign.title)}
+          key={campaign.id}
+          className="mx-auto mt-5 w-11/12 bg-blue-900 rounded-lg"
+        >
+          <Text className="p-2 mx-auto text-white">{campaign.title}</Text>
+        </TouchableOpacity>
+      ))}
+      <TouchableOpacity
+        onPress={handleNew}
+        className="mx-auto mt-5 w-11/12 bg-blue-500 rounded-lg"
+      >
+        <Text className="p-2 mx-auto text-white">+ New Campaign +</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={handleDebug}
+        className="mx-auto mt-5 border-2 w-11/12 bg-slate-500 rounded-lg"
+      >
+        <Text className="p-2 m-auto text-white">Debug</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
-const handleEncounter = () => {
-  navigation.navigate("Encounter")
-}
 
-const handleSave = () => {
-  dispatch(setTest())
-}
-// async () => {
-//   try{
-//     await AsyncStorage.setItem('test', 'rabbit');
-//   } catch (e) {
-//     setText("error saving:", e)
-//   }
-// }
-const handleFetch = () => {
-  dispatch(fetchTest())
-}
-// async () => {
-//   try{
-//     const returned = await AsyncStorage.getItem('test');
-//     if (returned !== null){
-//       setText(returned)
-//     } else {
-//       setText('')
-//     }
-//   } catch(e) {
-//     setText("error fetching: ", e)
-//   }
-// }
-
-const handleDelete = () => {
-  dispatch(deleteTest())
-}
-// async () => {
-//   try {
-//     await AsyncStorage.removeItem('test');
-//     return true;
-//   } catch {
-//     return false;
-//   }
-// }
-
-return (
-  <View>
-    <TouchableOpacity className="m-auto w-3/6 bg-red-700 rounded-lg" onPress={handleCampaign}>
-      <Text className="p-3 mx-auto text-white">Campaign!</Text>
-    </TouchableOpacity>
-    <TouchableOpacity className="m-auto w-3/6 bg-red-700 rounded-lg" onPress={handleEncounter}>
-      <Text className="p-3 mx-auto text-white">Encounter!</Text>
-    </TouchableOpacity>
-    <TouchableOpacity className="m-auto w-3/6 bg-teal-700 rounded-lg" onPress={handleSave}>
-      <Text className="p-3 m-auto text-white">Save "rabbit" to local storage</Text>
-    </TouchableOpacity>
-    <TouchableOpacity className="m-auto w-3/6 bg-teal-700 rounded-lg" onPress={handleFetch}>
-      <Text className="p-3 m-auto text-white">Pull "rabbit" from local storage</Text>
-    </TouchableOpacity>
-    <TouchableOpacity className="m-auto w-3/6 bg-teal-700 rounded-lg" onPress={handleDelete}>
-      <Text className="p-3 m-auto text-white">Delete "rabbit" from local storage</Text>
-    </TouchableOpacity>
-    <Text>From Local Storage:</Text><Text>{localStorage}</Text>
-  </View>
-)
-
-}
+//TODO: Render a list of campaigns from props

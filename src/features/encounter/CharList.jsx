@@ -1,32 +1,31 @@
-//TODO: Comment back in as able
-
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import DraggableFlatList, { ScaleDecorator } from "react-native-draggable-flatlist";
-// import {
-//   nextChar,
-//   statusAdded,
-//   statusRemoved,
-//   hpAdded,
-//   hpRemoved,
-//   targetDestroyed,
-//   setChars
-// } from "./encounterSlice";
-// import { useSelector, useDispatch } from "react-redux";
+import {
+  nextChar,
+  statusAdded,
+  statusRemoved,
+  hpAdded,
+  hpRemoved,
+  targetDestroyed,
+  setChars
+} from "./encounterSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { useRoute } from "@react-navigation/native";
 
 import Character from "./Character";
 
 export default function CharList(props) {
-  // const encounter = useSelector((state) => state.encounter);
-  // const dispatch = useDispatch();
+  const route = useRoute();
+  const encounter = useSelector((state) => state.encounter);
+  const dispatch = useDispatch();
 
   const handleResort = ({data}) => {
-    // dispatch(setChars(data))
+    dispatch(setChars(data))
   }
 
   const renderItem = ({ item, drag, isActive }) => {
 
-    const active = false
-    //item.name === encounter.chars[encounter.active].name
+    const active = item.name === encounter.chars[encounter.active].name
 
     return (
       <ScaleDecorator>
@@ -57,8 +56,7 @@ export default function CharList(props) {
 
   return (
     <View>
-      {/* USED TO BE encounter.chars && encounter.chars.map(etc)*/}
-      {false &&
+      {encounter.chars &&
         // encounter.chars.map((char, i) => (
         //   <Character character={char} key={i} active={i === encounter.active} />
         // ))
@@ -75,17 +73,17 @@ export default function CharList(props) {
   );
 }
 
-// const styles = StyleSheet.create({
-//   rowItem: {
-//     height: 100,
-//     width: 100,
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   text: {
-//     color: "white",
-//     fontSize: 24,
-//     fontWeight: "bold",
-//     textAlign: "center",
-//   },
-// });
+const styles = StyleSheet.create({
+  rowItem: {
+    height: 100,
+    width: 100,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text: {
+    color: "white",
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+});
