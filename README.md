@@ -4,8 +4,8 @@
 ![Encounter screen](https://i.imgur.com/DWCsIiG.png)
 
 ### THIS BRANCH OF THIS APP IS FOR ANDROID ONLY
-This app uses Redux and react-native-async-storage. See src/features/test for example usage.
-This app uses NativeWind, a Tailwind adaptor for React Native.
+This app uses Redux and react-native-async-storage (See src/features/test for example usage)
+and NativeWind, a Tailwind adaptor for React Native.
 
 ## Getting started:
 
