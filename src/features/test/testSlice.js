@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+//These asyncThunks are stored on the slice with "actions" if added as "extraReducers" as below.
+
 export const fetchTest = createAsyncThunk(
   'test/fetchTest',
   async () => {
@@ -17,9 +19,9 @@ export const fetchTest = createAsyncThunk(
 
 export const setTest = createAsyncThunk(
     'test/setTest',
-    async () => {
+    async (payload) => {
       try{
-        await AsyncStorage.setItem('test', 'rabbit')
+        await AsyncStorage.setItem('test', payload)
       } catch (e) {
         console.log("error setting: ", e)
       }
@@ -63,3 +65,29 @@ const testSlice = createSlice({
 export const { testRoute } = testSlice.actions
 
 export default testSlice.reducer
+
+//Remember to include reducer in store.js!
+
+/* Example usage:
+MyComponent.jsx
+
+import { fetchTest, setTest, deleteTest, testRoute } from './route/to/testSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+const dispatch = useDispatch()
+
+const handleSave = () => {
+  dispatch(setTest('rabbit'))
+}
+
+export default function MyComponent() {
+  return (
+    <View>
+      <TouchableOpacity onPress={handleSave}>
+        <Text>Press this to save "rabbit" to the key "test" in local storage.</Text>
+      </TouchableOpacity>
+    </View>
+    )
+}
+
+*/
