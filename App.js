@@ -23,38 +23,33 @@ export default function App() {
     "Scada-Bold-Italic": require("./assets/fonts/ScadaBoldItalic700.ttf"),
   });
 
-  return (
-    <Provider store={store}>
-      <StatusBar style="auto" />
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Launch">
-          <Stack.Screen
-          name="Launch"
-          component={Launch}
-          />
-          <Stack.Screen
-          name="Campaign"
-          component={Campaign}
-          />
-          <Stack.Screen
-          name="Encounter"
-          component={Encounter}
-          />
-        </Stack.Navigator>
-        <View className="my-auto mx-auto">
-          <Text className="text-xl">CI/CD to the play store bay beeeee</Text>
-          <Counter />
-        </View>
-      </NavigationContainer>
-    </Provider>
-  );
+  if(fontsLoaded){
+
+    return (
+      <Provider store={store}>
+        <StatusBar style="auto" />
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Launch">
+            <Stack.Screen
+            name="Launch"
+            component={Launch}
+            />
+            <Stack.Screen
+            name="Campaign"
+            component={Campaign}
+            />
+            <Stack.Screen
+            name="Encounter"
+            component={Encounter}
+            />
+          </Stack.Navigator>
+          <View className="my-auto mx-auto">
+            <Text className="text-xl">CI/CD to the play store bay beeeee</Text>
+            <Counter />
+          </View>
+        </NavigationContainer>
+      </Provider>
+    );
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

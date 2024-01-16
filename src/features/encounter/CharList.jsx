@@ -75,17 +75,17 @@ export default function CharList(props) {
   );
 }
 
-const styles = StyleSheet.create({
-  rowItem: {
-    height: 100,
-    width: 100,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  text: {
-    color: "white",
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-});
+// const styles = StyleSheet.create({
+//   rowItem: {
+//     height: 100,
+//     width: 100,
+//     alignItems: "center",
+//     justifyContent: "center",
+//   },
+//   text: {
+//     color: "white",
+//     fontSize: 24,
+//     fontWeight: "bold",
+//     textAlign: "center",
+//   },
+// });
