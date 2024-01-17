@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View } from "react-native";
 import Character from "./Character";
 import { useSelector } from "react-redux";
 
@@ -6,7 +6,7 @@ export default function CharacterList() {
   const campaign = useSelector((state) => state.campaign);
 
   return (
-    <View style={styles.container}>
+    <View className="mh-4 mt-4">
       {campaign.characters &&
         campaign.characters.map((char) => (
           <Character character={char} key={char.name} />
@@ -15,9 +15,3 @@ export default function CharacterList() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 4,
-    marginTop: 4,
-  },
-});

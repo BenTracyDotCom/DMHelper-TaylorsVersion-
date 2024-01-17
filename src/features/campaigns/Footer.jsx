@@ -1,4 +1,4 @@
-import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, View, Text } from "react-native";
 import { useDispatch } from "react-redux";
 import { toggleEncountersMenu } from "../encounter/encountersSlice";
 
@@ -10,29 +10,11 @@ export default function Footer() {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.encounters} onPress={handleEncounter}>
-        <Text style={styles.buttonText}>Encounters</Text>
+    <View className="h-[150px]">
+      <TouchableOpacity onPress={handleEncounter} className="rounded-xl bg-blue-600 mx-[9px] mt-[9px]">
+        <Text className="text-white font-[Scada] p-2 text-center text-[20px]">Encounters</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    height: 150,
-  },
-  encounters: {
-    borderRadius: 12,
-    backgroundColor: "blue",
-    marginHorizontal: 9,
-    marginTop: 9,
-  },
-  buttonText: {
-    color: "white",
-    fontFamily: "Scada",
-    padding: 8,
-    textAlign: "center",
-    fontSize: 20,
-  },
-});

@@ -5,7 +5,7 @@
 
 ### THIS BRANCH OF THIS APP IS FOR ANDROID ONLY
 This app uses Redux and react-native-async-storage (See src/features/test for example usage)
-and NativeWind, a Tailwind adaptor for React Native.
+and NativeWind, a Tailwind adapter for React Native.
 
 ## Getting started:
 
@@ -28,11 +28,7 @@ on Android, go into the Expo Go app and pick the option to scan QR code.
 
 ### OR
 
-### Run the Dev server on a virtual device
-
-Set up the virtual Android or iOS device according to respective docs.
-
-Run the Expo command pertinent to send the app to the virtual device (a for Android or i for iOS)
+Set up a virtual Android device according to respective docs.
 
 ### Start editing and see the app change! 
 

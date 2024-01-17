@@ -10,18 +10,19 @@ import {
 export default function Header({toggleQuestModal}) {
   const dispatch = useDispatch();
 
-  const { location, currentObjective, maps } = useSelector(
-    (state) => state.campaign,
+  const { location, currentObjective, maps, currentQuest, quests, currentObjectiveIndex } = useSelector(
+    (state) => state.campaign
   );
-  const currentQuest = useSelector((state) => state.campaign.currentQuest);
+  //const currentQuest = useSelector((state) => state.campaign.currentQuest);
 
   const campaignState = useSelector((state) => state.campaign);
-  const currentQuestData = useSelector((state) =>
-    state.campaign.quests.find(
-      (quest) => quest.title === state.campaign.currentQuest,
-    ),
-  );
-  const currentObjectiveIndex = campaignState.currentObjectiveIndex;
+  const currentQuestData = quests.find(quest => quest.title === currentQuest)
+  // useSelector((state) =>
+  //   state.campaign.quests.find(
+  //     (quest) => quest.title === state.campaign.currentQuest,
+  //   ),
+  // );
+  //const currentObjectiveIndex = campaignState.currentObjectiveIndex;
 
   const handleLocation = () => {
     //TODO
@@ -29,14 +30,6 @@ export default function Header({toggleQuestModal}) {
 
   const handleQuest = () => {
     toggleQuestModal()
-  };
-
-  const handlePreviousObjective = () => {
-    dispatch(previousObjective());
-  };
-
-  const handleNextObjective = () => {
-    dispatch(nextObjective());
   };
 
   const handleObjective = () => {
@@ -52,156 +45,43 @@ export default function Header({toggleQuestModal}) {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-      <View style={styles.questDataRow}>
-          <Text style={styles.title}>Where:</Text>
-          <TouchableOpacity
-            style={styles.locationButton}
-            onPress={handleLocation}
-          >
-            <Text style={styles.locationText}>{location}</Text>
+    <View className="h-[230px] flex flex-col">
+      <View className="flex flex-col justify-around items-center mx-0.5 h-full">
+      <View className="flex flex-row mx-1 my-1 py-2.5 mb-[15px]">
+          <Text className="font-[Scada] font-bold text-2xl mb-2.5">Where:</Text>
+          <TouchableOpacity className="flex-1 mx-1 rounded-xl bg-gray-300 content-center justify-center" onPress={handleLocation}>
+            <Text className="m-auto text-xl font-[Scada] text-center">{location}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.mapButton}>
-            <Text style={styles.mapText}>Map</Text>
+          <TouchableOpacity className="rounded-xl bg-gray-300 mr-1">
+            <Text className="m-auto p-2 text-xl font-[Scada]">Map</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.questDataRow}>
-          <Text style={styles.title}>Quest:</Text>
-          <TouchableOpacity style={styles.locationButton} onPress={handleQuest}>
-            <Text style={styles.locationText}>{currentQuest}</Text>
+        <View className="flex flex-row m-1 py-2.5 mb-[15px]">
+          <Text className="font-[Scada] font-bold text-2xl mb-2.5">Quest:</Text>
+          <TouchableOpacity className="flex-1 mx-1 rounded-xl bg-gray-300 content-center justify-center" onPress={handleQuest}>
+            <Text className="m-auto text-xl font-[Scada] text-center">{currentQuest}</Text>
           </TouchableOpacity>
         </View>
-        <Text style={{ ...styles.title, fontSize: 18 }}>Objective:</Text>
-        <View style={styles.questDataRow}>
+        <Text className="font-[Scada] font-bold text-lg mb-2.5">Objective:</Text>
+        <View className="flex flex-row m-1 py-2.5 mb-[15px]">
           <TouchableOpacity
-            style={styles.locationButton}
-            onPress={handleObjective}
-          >
-            <Text style={styles.locationText}>
+            className="flex-1 mx-1 rounded-xl bg-gray-300 content-center justify-center" onPress={handleObjective}>
+            <Text className="m-auto text-xl font-[Scada] text-center">
               {currentQuestData && currentObjectiveIndex !== undefined
                 ? currentQuestData.objectives[currentObjectiveIndex]
                 : "None"}
             </Text>
-            {/* <View style={styles.objectiveButtonsContainer}>
-            <TouchableOpacity
-              style={styles.objectiveButton}
-              onPress={handlePreviousObjective}
-            >
-              <Text style={styles.objectiveButtonText}>Previous Objective</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.objectiveButton}
-              onPress={handleNextObjective}
-            >
-              <Text style={styles.objectiveButtonText}>Next Objective</Text>
-            </TouchableOpacity>
-          </View> */}
           </TouchableOpacity>
         </View>
-        <View style={styles.buttonBar}>
-          <TouchableOpacity style={styles.button} onPress={handleNPCs}>
-            <Text style={styles.buttonText}>NPCs</Text>
+        <View className="flex flex-row justify-between w-[90%] items-center py-2.5">
+          <TouchableOpacity className="rounded-full bg-gray-300 w-[40%] justify-center mt-1 px-2.5" onPress={handleNPCs}>
+            <Text className="font-[Scada] text-xl text-center">NPCs</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={handleHooks}>
-            <Text style={styles.buttonText}>Hooks</Text>
+          <TouchableOpacity className="rounded-full bg-gray-300 w-[40%] justify-center mt-1 px-2.5" onPress={handleHooks}>
+            <Text className="font-[Scada] text-xl text-center">Hooks</Text>
           </TouchableOpacity>
         </View>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    height: 230,
-    flexDirection: "column",
-  },
-  header: {
-    flexDirection: "column",
-    justifyContent: "space-around",
-    alignItems: "center",
-    marginHorizontal: 2,
-    height: "100%",
-  },
-  title: {
-    fontFamily: "Scada",
-    fontWeight: "bold",
-    fontSize: 24,
-    marginBottom: 10,
-  },
-  locationButton: {
-    flex: 1,
-    marginHorizontal: 4,
-    borderRadius: 15,
-    backgroundColor: "#d1d5db",
-    alignContent: "center",
-    justifyContent: "center",
-
-  },
-  locationText: {
-    margin: "auto",
-    fontSize: 20,
-    fontFamily: "Scada",
-    textAlign: "center",
-  },
-  mapButton: {
-    borderRadius: 10,
-    backgroundColor: "#d1d5db",
-    marginRight: 4,
-  },
-  mapText: {
-    margin: "auto",
-    padding: 8,
-    fontSize: 20,
-    fontFamily: "Scada",
-  },
-  questDataRow: {
-    flexDirection: "row",
-    marginHorizontal: 4,
-    marginVertical: 4,
-    paddingVertical: 10,
-    marginBottom: 15,
-  },
-  quest: {
-    flexDirection: "row",
-  },
-  buttonBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "90%",
-    alignItems: 'center',
-    paddingVertical: 10,
-  },
-  button: {
-    borderRadius: 30,
-    backgroundColor: "#d1d5db",
-    width: "40%",
-    justifyContent: 'center',
-    marginTop: 4,
-    paddingHorizontal: 10,
-  },
-  buttonText: {
-    fontFamily: "Scada",
-    fontSize: 20,
-    textAlign: "center",
-  },
-  objectiveButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    marginBottom: 10,
-  },
-  objectiveButton: {
-    padding: 10,
-    backgroundColor: '#f5f5f5',
-    borderRadius: 5,
-    flex: 1,
-    marginHorizontal: 5,
-    alignItems: 'center',
-  },
-  objectiveButtonText: {
-    fontSize: 16,
-    color: 'blue',
-  },
-});
